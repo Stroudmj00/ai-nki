@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Make editable Anki image occlusion cards from your lecture diagrams. Reveal a sample label or see how to use your own eligible ChatGPT plan.">
+  <link rel="icon" href="ai-nki.png">
+  <title>AI-nki · Image occlusion for Anki</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root { color-scheme: light; --ink: #142533; --muted: #465c6c; --accent: #125fa8; --line: #ced9df; }
+    body { max-width: 68rem; margin: auto; padding: 0 clamp(1rem, 5vw, 4rem); color: var(--ink); background: white; font: 1rem/1.55 system-ui, sans-serif; }
+    a { color: var(--accent); text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    header, nav, .brand { display: flex; align-items: center; }
+    header { justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    nav { gap: 1rem; font-size: .92rem; }
+    .brand { gap: .45rem; font-size: 1.2rem; font-weight: 720; }
+    main { padding-bottom: 2rem; }
+    .hero { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; padding: clamp(2rem, 8vw, 6rem) 0; }
+    h1,h2,p,figure { margin: 0; }
+    h1 { font-size: clamp(2.6rem, 5.4vw, 4.4rem); line-height: 1.04; letter-spacing: -.055em; max-width: 13ch; }
+    h2 { font-size: 1.45rem; letter-spacing: -.035em; line-height: 1.2; }
+    .intro { margin-top: 1.15rem; font-size: 1.1rem; color: var(--muted); }
+    .platform, figcaption, footer { font-size: .9rem; color: var(--muted); }
+    .platform { margin-bottom: .65rem; }
+    figure { background: #f5f8fb; padding: 1.35rem; border: 1px solid var(--line); border-radius: .75rem; }
+    figure h2 { font-size: 1.15rem; letter-spacing: -.015em; }
+    figcaption { margin-top: .8rem; }
+    summary { cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    .diagram { position: relative; display: block; margin: .75rem 0 1rem; }
+    .diagram img { display: block; width: 100%; height: auto; }
+    .mask { position: absolute; left: 68%; top: 11%; width: 20%; height: 9%; background: var(--accent); border-radius: .12rem; }
+    .action { display: inline-block; background: var(--accent); color: white; padding: .54rem 1rem; border-radius: .35rem; font-weight: 650; }
+    details[open] .mask, details[open] .show, details:not([open]) .hide { display: none; }
+    .answer { margin-top: .6rem; font-weight: 650; }
+    .info { border-top: 1px solid var(--line); padding: 1.75rem 0; display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; }
+    .info p + p, .info ol { margin: .8rem 0 0; }
+    ol { padding-left: 1.3rem; }
+    li + li { margin-top: .3rem; }
+    footer { padding: 1rem 0; border-top: 1px solid var(--line); }
+    @media (max-width: 46rem) { .hero,.info { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="brand"><img src="ai-nki.png" width="32" height="32" alt="">AI-nki</span>
+    <nav aria-label="On this page"><a href="#get-started">Install</a><a href="#student-access">Student access</a></nav>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <div>
+        <p class="platform">Image occlusion for Anki Desktop · Windows preview</p>
+        <h1 id="title">Study straight from your lecture diagrams.</h1>
+        <p class="intro">Hide a label on your PDF or PowerPoint slide. Check what the card will ask, then add it to your Anki deck. Draw masks by hand or let AI suggest a first draft.</p>
+      </div>
+      <figure>
+        <h2>Which structure does the blue line point to?</h2>
+        <details>
+          <summary>
+            <span class="diagram"><img src="animal-cell.png" width="690" height="438" alt="Animal cell with a blue line pointing to a round structure near the center."><span class="mask" aria-hidden="true"></span></span>
+            <span class="action show">Reveal label</span><span class="action hide">Hide label</span>
+          </summary>
+          <p class="answer">Nucleus</p>
+        </details>
+        <figcaption>From the built-in cell biology sample. <a href="ai-nki-demo.mp4">Watch a mask correction in Anki (20 seconds)</a>.</figcaption>
+      </figure>
+    </section>
+    <section id="get-started" class="info" aria-labelledby="install-title">
+      <h2 id="install-title">Try it in Anki</h2>
+      <div>
+        <p><a class="action" href="https://github.com/Stroudmj00/ai-nki/releases/download/v0.6.15-preview/ai-nki-0.6.15-preview.ankiaddon">Download the free Windows add-on</a></p>
+        <p>Windows x64 · Tested with Anki Desktop 26.09.3 · 129 MiB</p>
+        <p>On your computer, open <strong>Tools → Add-ons → Install from file</strong> in Anki, select the downloaded file and restart Anki.</p>
+        <ol>
+          <li>Open <strong>Tools → AI-nki</strong> and choose <strong>Try the sample</strong>.</li>
+          <li>Choose <strong>Draw mask</strong> and mark two opposite corners around a label. Accept the slide.</li>
+          <li>Choose your deck, then <strong>Add to Anki → Study</strong>.</li>
+        </ol>
+      </div>
+    </section>
+    <section id="student-access" class="info" aria-labelledby="student-title">
+      <h2 id="student-title">Can I use my student account?</h2>
+      <div>
+        <p>You can make cards by hand for free, without signing in. For AI suggestions, connect your own eligible ChatGPT Plus or Pro account. Your plan limits apply. AI-nki asks before sharing slide images and text.</p>
+        <p>Already receiving student Plus? Try the built-in sample with the account that claimed the offer. A promotional account still needs testing. The U.S. offer closed to new claims on October 31, 2026. ChatGPT Free and student Codex credits do not qualify for this connection.</p>
+        <p><a href="https://help.openai.com/en/articles/20001493-chatgpt-back-to-school-offer-for-students">Student offer terms</a> · <a href="https://developers.openai.com/siwc/quickstart">Eligible ChatGPT plans</a></p>
+      </div>
+    </section>
+  </main>
+  <footer>AI-nki is an independent add-on for Anki Desktop.</footer>
+</body>
+</html>
