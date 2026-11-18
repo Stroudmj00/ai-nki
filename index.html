@@ -3,7 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Make editable Anki image occlusion cards from your lecture diagrams. Reveal a sample label or see how to use your own eligible ChatGPT plan.">
+  <meta name="description" content="Turn labels on your PDF or PowerPoint diagrams into editable Anki flashcards. Try a sample card and download the free Windows add-on.">
+  <link rel="canonical" href="https://stroudmj00.github.io/ai-nki/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stroudmj00.github.io/ai-nki/">
+  <meta property="og:title" content="AI-nki · Study your lecture diagrams in Anki">
+  <meta property="og:description" content="Hide labels, check the cards, and study in your own deck. Try a sample before installing the free Windows add-on.">
+  <meta property="og:image" content="https://stroudmj00.github.io/ai-nki/share-preview.png">
+  <meta property="og:image:alt" content="AI-nki’s sample cell diagram with one label hidden for recall.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="ai-nki.png">
   <title>AI-nki · Image occlusion for Anki</title>
   <style>
@@ -32,7 +40,8 @@
     .diagram { position: relative; display: block; margin: .75rem 0 1rem; }
     .diagram img { display: block; width: 100%; height: auto; }
     .mask { position: absolute; left: 68%; top: 11%; width: 20%; height: 9%; background: var(--accent); border-radius: .12rem; }
-    .action { display: inline-block; background: var(--accent); color: white; padding: .54rem 1rem; border-radius: .35rem; font-weight: 650; }
+    .action { display: inline-block; background: var(--accent); color: white; padding: .54rem 1rem; border-radius: .35rem; font-weight: 650; text-decoration: none; }
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; }
     details[open] .mask, details[open] .show, details:not([open]) .hide { display: none; }
     .answer { margin-top: .6rem; font-weight: 650; }
     .info { border-top: 1px solid var(--line); padding: 1.75rem 0; display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; }
@@ -53,7 +62,7 @@
       <div>
         <p class="platform">Image occlusion for Anki Desktop · Windows preview</p>
         <h1 id="title">Study straight from your lecture diagrams.</h1>
-        <p class="intro">Hide a label on your PDF or PowerPoint slide. Check what the card will ask, then add it to your Anki deck. Draw masks by hand or let AI suggest a first draft.</p>
+        <p class="intro">Hide a label on your PDF or PowerPoint slide. Check the card, then add it to your own Anki deck. Draw masks for free or use your eligible ChatGPT plan for a first draft.</p>
       </div>
       <figure>
         <h2>Which structure does the blue line point to?</h2>
@@ -71,7 +80,7 @@
       <h2 id="install-title">Try it in Anki</h2>
       <div>
         <p><a class="action" href="https://github.com/Stroudmj00/ai-nki/releases/download/v0.6.15-preview/ai-nki-0.6.15-preview.ankiaddon">Download the free Windows add-on</a></p>
-        <p>Windows x64 · Tested with Anki Desktop 26.09.3 · 129 MiB</p>
+        <p>Windows x64 · Tested with Anki Desktop 26.09.3 · 129 MiB<br><a href="https://github.com/Stroudmj00/ai-nki/releases/tag/v0.6.15-preview">Version 0.6.15-preview · Release details and checksum</a></p>
         <p>On your computer, open <strong>Tools → Add-ons → Install from file</strong> in Anki, select the downloaded file and restart Anki.</p>
         <ol>
           <li>Open <strong>Tools → AI-nki</strong> and choose <strong>Try the sample</strong>.</li>
@@ -83,12 +92,12 @@
     <section id="student-access" class="info" aria-labelledby="student-title">
       <h2 id="student-title">Can I use my student account?</h2>
       <div>
-        <p>You can make cards by hand for free, without signing in. For AI suggestions, connect your own eligible ChatGPT Plus or Pro account. Your plan limits apply. AI-nki asks before sharing slide images and text.</p>
-        <p>Already receiving student Plus? Try the built-in sample with the account that claimed the offer. A promotional account still needs testing. The U.S. offer closed to new claims on October 31, 2026. ChatGPT Free and student Codex credits do not qualify for this connection.</p>
+        <p>You can make cards by hand on your computer without signing in. For AI suggestions, connect your own eligible ChatGPT Plus or Pro account. Your plan limits apply. When you allow sharing for a session, slide images and text from the slides you generate are sent to the provider. Closing AI-nki ends that permission.</p>
+        <p>Already have Plus through a student offer? Try your account with the built-in sample first. We’ve tested one eligible account so far. Student promotional access is still unverified.</p>
         <p><a href="https://help.openai.com/en/articles/20001493-chatgpt-back-to-school-offer-for-students">Student offer terms</a> · <a href="https://developers.openai.com/siwc/quickstart">Eligible ChatGPT plans</a></p>
       </div>
     </section>
   </main>
-  <footer>AI-nki is an independent add-on for Anki Desktop.</footer>
+  <footer><span>AI-nki is an independent add-on for Anki Desktop.</span><span><a href="https://github.com/Stroudmj00/ai-nki">Publisher: Stroudmj00</a> · <a href="https://github.com/Stroudmj00/ai-nki/issues">Help and bug reports</a></span></footer>
 </body>
 </html>
