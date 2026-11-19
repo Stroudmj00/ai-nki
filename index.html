@@ -12,93 +12,198 @@
   <meta property="og:image" content="https://stroudmj00.github.io/ai-nki/share-preview.png">
   <meta property="og:image:alt" content="AI-nki’s sample cell diagram with one label hidden for recall.">
   <meta name="twitter:card" content="summary_large_image">
+  <title>AI-nki — Study from your lecture diagrams</title>
   <link rel="icon" href="ai-nki.png">
-  <title>AI-nki · Image occlusion for Anki</title>
   <style>
-    * { box-sizing: border-box; }
-    :root { color-scheme: light; --ink: #142533; --muted: #465c6c; --accent: #125fa8; --line: #ced9df; }
-    body { max-width: 68rem; margin: auto; padding: 0 clamp(1rem, 5vw, 4rem); color: var(--ink); background: white; font: 1rem/1.55 system-ui, sans-serif; }
-    a { color: var(--accent); text-underline-offset: .2em; }
-    :focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    :root {
+      color-scheme: light;
+      --ink: #14253a;
+      --muted: #456077;
+      --blue: #145bb8;
+      --line: #d4e0ec;
+      --wash: #f1f6fc;
+      font: 16px/1.5 system-ui, sans-serif;
+      color: var(--ink);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0 auto; max-width: 72rem; padding-inline: clamp(1.25rem, 4vw, 3rem); }
+    h1, h2, h3, p, figure { margin: 0; }
+    a { color: var(--blue); text-underline-offset: .2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 4px; }
     header, nav, .brand { display: flex; align-items: center; }
-    header { justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
-    nav { gap: 1rem; font-size: .92rem; }
-    .brand { gap: .45rem; font-size: 1.2rem; font-weight: 720; }
-    main { padding-bottom: 2rem; }
-    .hero { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; padding: clamp(2rem, 8vw, 6rem) 0; }
-    h1,h2,p,figure { margin: 0; }
-    h1 { font-size: clamp(2.6rem, 5.4vw, 4.4rem); line-height: 1.04; letter-spacing: -.055em; max-width: 13ch; }
-    h2 { font-size: 1.45rem; letter-spacing: -.035em; line-height: 1.2; }
-    .intro { margin-top: 1.15rem; font-size: 1.1rem; color: var(--muted); }
-    .platform, figcaption, footer { font-size: .9rem; color: var(--muted); }
-    .platform { margin-bottom: .65rem; }
-    figure { background: #f5f8fb; padding: 1.35rem; border: 1px solid var(--line); border-radius: .75rem; }
-    figure h2 { font-size: 1.15rem; letter-spacing: -.015em; }
-    figcaption { margin-top: .8rem; }
+    header { justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    nav { gap: clamp(.8rem, 2vw, 1.5rem); font-size: .875rem; }
+    nav a { padding-block: .5rem; }
+    .brand { gap: .45rem; font-weight: 750; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(1.75rem, 5vw, 4rem);
+      align-items: center;
+      padding: clamp(2.4rem, 6vw, 4.75rem) 0;
+    }
+    h1 { max-width: 13ch; font-size: clamp(2.6rem, 6vw, 4.7rem); line-height: 1.01; letter-spacing: -.06em; }
+    .free { margin-top: .9rem; color: var(--blue); font-weight: 750; font-size: 1.25rem; }
+    .demo { background: var(--wash); padding: clamp(1rem, 2vw, 1.5rem); border: 1px solid var(--line); border-radius: 1rem; }
+    .demo h2 { font-size: 1rem; line-height: 1.35; }
+    .diagram { position: relative; display: block; margin: .65rem 0 .85rem; }
+    .diagram img { display: block; width: 100%; height: auto; }
+    .mask { position: absolute; left: 68%; top: 11%; width: 20%; height: 9%; background: var(--blue); border-radius: .12rem; }
+    .control-row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .answer { font-weight: 700; }
+    details[open] .mask, details[open] .show, details:not([open]) .hide { display: none; }
     summary { cursor: pointer; list-style: none; }
     summary::-webkit-details-marker { display: none; }
-    .diagram { position: relative; display: block; margin: .75rem 0 1rem; }
-    .diagram img { display: block; width: 100%; height: auto; }
-    .mask { position: absolute; left: 68%; top: 11%; width: 20%; height: 9%; background: var(--accent); border-radius: .12rem; }
-    .action { display: inline-block; background: var(--accent); color: white; padding: .54rem 1rem; border-radius: .35rem; font-weight: 650; text-decoration: none; }
-    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; }
-    details[open] .mask, details[open] .show, details:not([open]) .hide { display: none; }
-    .answer { margin-top: .6rem; font-weight: 650; }
-    .info { border-top: 1px solid var(--line); padding: 1.75rem 0; display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.25rem; }
-    .info p + p, .info ol { margin: .8rem 0 0; }
-    ol { padding-left: 1.3rem; }
-    li + li { margin-top: .3rem; }
-    footer { padding: 1rem 0; border-top: 1px solid var(--line); }
-    @media (max-width: 46rem) { .hero,.info { grid-template-columns: 1fr; } }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: .55rem .95rem;
+      border: 1px solid transparent;
+      border-radius: .5rem;
+      background: var(--blue);
+      color: white;
+      font-size: .88rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .button:hover, .demo summary:hover .button { background: #104c9b; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 1.85rem); line-height: 1.18; letter-spacing: -.04em; }
+    .install { border-top: 1px solid var(--line); padding: 1.65rem 0 2rem; }
+    .install-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; }
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+    .step { padding: 1rem; border: 1px solid var(--line); border-radius: .85rem; }
+    .step h3 { display: flex; align-items: center; gap: .55rem; font-size: 1rem; }
+    .number { display: grid; place-items: center; flex: none; width: 1.7rem; height: 1.7rem; background: var(--wash); color: var(--blue); border-radius: 50%; font-size: .85rem; }
+    .step-art { position: relative; display: grid; place-items: center; height: 10.25rem; margin: .75rem 0; background: var(--wash); border-radius: .5rem; overflow: hidden; }
+    .step-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .step p { color: var(--muted); font-size: .86rem; }
+    .drop-illustration { gap: .35rem; align-content: center; padding: .4rem; }
+    .file-chip { padding: .25rem .55rem; border: 1px solid #abc3df; border-radius: .35rem; background: white; font-size: .74rem; font-weight: 700; }
+    .drop-arrow { color: var(--blue); line-height: 1; font-size: 1.3rem; font-weight: 750; }
+    .drop-target {
+      display: grid;
+      place-items: center;
+      width: min(8rem, 95%);
+      min-height: 2rem;
+      padding: .2rem;
+      border: 1px dashed var(--blue);
+      border-radius: .4rem;
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .restart-icon { width: 3.35rem; height: 3.35rem; color: var(--blue); }
+    .student { background: var(--wash); border: 1px solid var(--line); border-radius: .85rem; padding: clamp(1rem, 3vw, 1.65rem); }
+    .student p { margin-top: .45rem; color: var(--muted); }
+    .student-actions { display: flex; align-items: start; flex-wrap: wrap; gap: .75rem; margin-top: .9rem; }
+    .secondary { background: white; border-color: #abc3df; color: var(--blue); }
+    .secondary:hover { background: #e1eeff; }
+    .student small { display: block; margin-top: .45rem; color: var(--muted); }
+    footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; margin-top: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+    @media (max-width: 45rem) {
+      .hero { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 32rem) {
+      .steps { grid-template-columns: 1fr; }
+      .step { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 46%); gap: .35rem .65rem; align-items: center; }
+      .step-art { grid-column: 2; grid-row: 1 / span 2; height: 7.4rem; margin: 0; }
+    }
   </style>
 </head>
 <body>
   <header>
-    <span class="brand"><img src="ai-nki.png" width="32" height="32" alt="">AI-nki</span>
-    <nav aria-label="On this page"><a href="#get-started">Install</a><a href="#student-access">Student access</a></nav>
+    <span class="brand"><img src="ai-nki.png" width="30" height="30" alt="">AI-nki</span>
+    <nav aria-label="On this page"><a href="#get-started">Install</a><a href="#student-access">ChatGPT setup</a></nav>
   </header>
   <main>
-    <section class="hero" aria-labelledby="title">
+    <section class="hero" aria-labelledby="hero-title">
       <div>
-        <p class="platform">Image occlusion for Anki Desktop · Windows preview</p>
-        <h1 id="title">Study straight from your lecture diagrams.</h1>
-        <p class="intro">Connect ChatGPT, open a lecture, and get suggested masks automatically. Review the cards and add them to your Anki deck. Draw masks by hand any time.</p>
+        <h1 id="hero-title">Study straight from your lecture diagrams.</h1>
+        <p class="free">Free Anki add-on</p>
       </div>
-      <figure>
-        <h2>Which structure does the blue line point to?</h2>
+      <figure class="demo" aria-labelledby="demo-title">
+        <h2 id="demo-title">Which structure does the blue line point to?</h2>
         <details>
           <summary>
-            <span class="diagram"><img src="animal-cell.png" width="690" height="438" alt="Animal cell with a blue line pointing to a round structure near the center."><span class="mask" aria-hidden="true"></span></span>
-            <span class="action show">Reveal label</span><span class="action hide">Hide label</span>
+            <span class="diagram">
+              <img src="animal-cell.png" width="690" height="438" alt="A blue line points to a round structure in an animal cell.">
+              <span class="mask" aria-hidden="true"></span>
+            </span>
+            <span class="control-row">
+              <span class="button show">Reveal label</span>
+              <span class="button hide">Hide label</span>
+              <span class="answer hide">Nucleus</span>
+            </span>
           </summary>
-          <p class="answer">Nucleus</p>
         </details>
-        <figcaption>From the built-in cell biology sample. <a href="ai-nki-demo.mp4">Watch a mask correction in Anki (20 seconds)</a>.</figcaption>
       </figure>
     </section>
-    <section id="get-started" class="info" aria-labelledby="install-title">
-      <h2 id="install-title">Try it in Anki</h2>
-      <div>
-        <p><a class="action" href="https://github.com/Stroudmj00/ai-nki/releases/download/v0.6.15-preview-ai-onboarding/ai-nki-0.6.15-preview-ai-onboarding.ankiaddon">Download the free Windows preview</a></p>
-        <p>ChatGPT-first preview · Windows x64 · Tested with Anki Desktop 26.09.3 · 129 MiB<br><a href="https://github.com/Stroudmj00/ai-nki/releases/tag/v0.6.15-preview-ai-onboarding">Release notes and installer checksum</a></p>
-        <p>On your computer, open <strong>Tools → Add-ons → Install from file</strong> in Anki, select the downloaded file and restart Anki.</p>
-        <ol>
-          <li>Open <strong>Tools → AI-nki</strong> and choose <strong>Continue with ChatGPT</strong>.</li>
-          <li>Approve in your browser, then return to Anki and choose <strong>Open lecture &amp; generate</strong>.</li>
-          <li>Review the suggested masks, then choose a deck and select <strong>Add to Anki → Study</strong>.</li>
-        </ol>
-        <p>Choose <strong>Try the sample by hand</strong> to practice without signing in.</p>
+    <section class="install" id="get-started" aria-labelledby="install-title">
+      <div class="install-header">
+        <h2 class="section-title" id="install-title">Try it in Anki</h2>
+        <a class="button" href="https://github.com/Stroudmj00/ai-nki/releases/download/v0.6.15-preview-ai-onboarding/ai-nki-0.6.15-preview-ai-onboarding.ankiaddon">Download for Windows</a>
       </div>
+      <ol class="steps" role="list">
+        <li class="step">
+          <h3><span class="number" aria-hidden="true">1</span>Open Add-ons</h3>
+          <div class="step-art"><img src="anki-tools-add-ons.png" width="343" height="283" alt=""></div>
+          <p>In Anki, go to <strong>Tools → Add-ons</strong>.</p>
+        </li>
+        <li class="step">
+          <h3><span class="number" aria-hidden="true">2</span>Drag in the add-on</h3>
+          <div class="step-art drop-illustration" aria-hidden="true">
+            <span class="file-chip">.ankiaddon</span>
+            <span class="drop-arrow">↓</span>
+            <span class="drop-target">Add-ons</span>
+          </div>
+          <p>Drop the downloaded file into the Add-ons window.</p>
+        </li>
+        <li class="step">
+          <h3><span class="number" aria-hidden="true">3</span>Restart Anki</h3>
+          <div class="step-art" aria-hidden="true">
+            <!-- Lucide rotate-cw, ISC License
+                 Copyright (c) 2026 Lucide Icons and Contributors.
+                 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee
+                 is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+                 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+                 INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE
+                 FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+                 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+                 ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. -->
+            <svg class="restart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+            </svg>
+          </div>
+          <p>Close and reopen Anki.</p>
+        </li>
+        <li class="step">
+          <h3><span class="number" aria-hidden="true">4</span>Start AI-nki</h3>
+          <div class="step-art"><img src="anki-tools-ai-nki.png" width="345" height="311" alt=""></div>
+          <p>Go to <strong>Tools → AI-nki</strong>.</p>
+        </li>
+      </ol>
     </section>
-    <section id="student-access" class="info" aria-labelledby="student-title">
-      <h2 id="student-title">Can I use my student account?</h2>
-      <div>
-        <p>You can make cards by hand on your computer without signing in. For AI suggestions, connect your own eligible ChatGPT Plus or Pro account. Your plan limits apply. When you allow sharing for a session, slide images and text from the slides you generate are sent to the provider. Closing AI-nki ends that permission.</p>
-        <p>Already have Plus through a student offer? Try your account with the built-in sample first. We’ve tested one eligible account so far. Student promotional access is still unverified.</p>
-        <p><a href="https://help.openai.com/en/articles/20001493-chatgpt-back-to-school-offer-for-students">Student offer terms</a> · <a href="https://developers.openai.com/siwc/quickstart">Eligible ChatGPT plans</a></p>
+    <section class="student" id="student-access" aria-labelledby="chatgpt-title">
+      <h2 class="section-title" id="chatgpt-title">Use the ChatGPT plan you already have</h2>
+      <p>Eligible Plus and Pro plans power AI suggestions at no extra charge from AI-nki.</p>
+      <div class="student-actions">
+        <details>
+          <summary class="button">Connect to ChatGPT</summary>
+          <p>In Anki, choose <strong>Tools → AI-nki → Continue with ChatGPT</strong>.<br>Select your eligible personal Plus or Pro account and approve in your browser.</p>
+          <p>Workspace access denied? Retry with your <strong>Personal</strong> workspace if it has Plus or Pro. For a managed workspace, contact your admin.</p>
+        </details>
+        <div>
+          <a class="button secondary" href="https://help.openai.com/en/articles/20001493-chatgpt-back-to-school-offer-for-students" aria-describedby="student-offer-status">Don’t have an account?</a>
+          <small id="student-offer-status">U.S. student offer ended Oct. 31, 2026.</small>
+        </div>
       </div>
     </section>
   </main>
-  <footer><span>AI-nki is an independent add-on for Anki Desktop.</span><span><a href="https://github.com/Stroudmj00/ai-nki">Publisher: Stroudmj00</a> · <a href="https://github.com/Stroudmj00/ai-nki/issues">Help and bug reports</a></span></footer>
+  <footer><span>An independent add-on for Anki Desktop.</span><a href="https://github.com/Stroudmj00/ai-nki/issues">Help and feedback</a></footer>
 </body>
 </html>
